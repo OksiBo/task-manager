@@ -1,7 +1,8 @@
 ukoly = []
 
 
-def hlavni_menu():
+def hlavni_menu() -> None:
+    """Zobrazuje hlavní menu, dokud uživatel nezvolí konec programu."""
     while True:
         print("\nSprávce úkolů - Hlavní menu")
         print("1. Přidat nový úkol")
@@ -24,7 +25,8 @@ def hlavni_menu():
             print("Neplatná volba.")
 
 
-def pridat_ukol():
+def pridat_ukol() -> None:
+    """Načte název a popis úkolu a uloží ho. Při prázdném vstupu se ptá znovu."""
     while True:
         nazev = input("\nZadejte název úkolu: ").strip()
         popis = input("Zadejte popis úkolu: ").strip()
@@ -42,7 +44,8 @@ def pridat_ukol():
     print(f"Úkol '{nazev}' byl přidán.")
 
 
-def zobrazit_ukoly():
+def zobrazit_ukoly() -> None:
+    """Vypíše všechny úkoly očíslované od 1."""
     if len(ukoly) == 0:
         print("\nSeznam úkolů je prázdný.")
         return
@@ -53,24 +56,28 @@ def zobrazit_ukoly():
         print(f"{cislo}. {ukol['nazev']} - {ukol['popis']}")
 
 
-def odstranit_ukol():
+def odstranit_ukol() -> None:
+    """Zobrazí úkoly a smaže ten, jehož číslo uživatel zadá. Při chybě se ptá znovu."""
     if len(ukoly) == 0:
         print("\nSeznam úkolů je prázdný, není co odstranit.")
         return
 
     zobrazit_ukoly()
 
-    cislo = input("\nZadejte číslo úkolu, který chcete odstranit: ").strip()
+    while True:
+        cislo = input("\nZadejte číslo úkolu, který chcete odstranit: ").strip()
 
-    if not cislo.isdigit():
-        print("Neplatný vstup, zadejte číslo úkolu.")
-        return
+        if not cislo.isdecimal():
+            print("Neplatný vstup, zadejte číslo úkolu.")
+            continue
 
-    cislo = int(cislo)
+        cislo = int(cislo)
 
-    if cislo < 1 or cislo > len(ukoly):
-        print("Takový úkol neexistuje.")
-        return
+        if cislo < 1 or cislo > len(ukoly):
+            print("Takový úkol neexistuje.")
+            continue
+
+        break
 
     odstraneny_ukol = ukoly.pop(cislo - 1)
 
